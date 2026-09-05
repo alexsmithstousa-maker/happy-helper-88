@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import React, { useState } from "react";
 import {
   Video,
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 
 function VeoStudioCloud() {
   const [activeTab, setActiveTab] = useState<"studio" | "gallery" | "licenses" | "accounts" | "settings">("studio");
-  const [selectedProject, setSelectedProject] = useState("dec3ed7b-ba33-4a6f-ae87-8764c11a955a");
+  const [selectedProject, setSelectedProject] = useState("f28e1abe-c74e-4960-baa4-02c354a9a53f");
   const [prompt, setPrompt] = useState("A cinematic drone shot of futuristic neo-tokyo skyscrapers enveloped in glowing golden volumetric mist, 4k 60fps");
   const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16" | "1:1">("16:9");
   const [modelMode, setModelMode] = useState<"veo2" | "lite">("veo2");
@@ -183,14 +183,13 @@ function VeoStudioCloud() {
 
         {/* Header Actions */}
         <div className="flex items-center gap-3">
-          <a
-            href={directFlowUrl}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/project/$projectId"
+            params={{ projectId: selectedProject }}
             className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-semibold px-3.5 py-2 rounded-xl shadow-lg shadow-indigo-500/25 transition-all"
           >
             <ExternalLink className="w-3.5 h-3.5" /> Direct Studio
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -324,16 +323,15 @@ function VeoStudioCloud() {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-2">
-                  <a
-                    href={directFlowUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                  <Link
+                    to="/project/$projectId"
+                    params={{ projectId: selectedProject }}
                     className="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 hover:opacity-95 text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-indigo-500/25 transition-all text-center"
                   >
-                    <Play className="w-4 h-4 fill-white" /> Open Studio Workspace
-                  </a>
+                    <Play className="w-4 h-4 fill-white" /> Open Full Studio ({selectedProject.slice(0, 8)}...)
+                  </Link>
                   <p className="text-[11px] text-center text-slate-400">
-                    Opens project directly with your authenticated Google Flow session.
+                    Direct authenticated Google Flow session active with 1000 credits.
                   </p>
                 </div>
               </div>
@@ -350,7 +348,10 @@ function VeoStudioCloud() {
                 </div>
                 <div className="text-xs text-slate-300">
                   <p className="font-mono text-[11px] text-slate-400 truncate">aryangemini6@gmail.com</p>
-                  <p className="text-slate-400 mt-1">Project ID: <span className="text-indigo-400 font-mono">{selectedProject.slice(0, 16)}...</span></p>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-slate-400">Target Project:</span>
+                    <span className="text-indigo-400 font-mono text-[11px] truncate max-w-[170px]" title={selectedProject}>{selectedProject}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -363,45 +364,28 @@ function VeoStudioCloud() {
                     <div className="w-3 h-3 rounded-full bg-red-500/80" />
                     <div className="w-3 h-3 rounded-full bg-amber-500/80" />
                     <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                    <span className="text-xs font-mono text-slate-300 ml-2">Google Flow Project Studio</span>
+                    <span className="text-xs font-mono text-slate-300 ml-2">Google Flow Live Studio</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <a
-                      href={directFlowUrl}
-                      target="_blank"
-                      rel="noreferrer"
+                    <Link
+                      to="/project/$projectId"
+                      params={{ projectId: selectedProject }}
                       className="bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors"
                     >
                       <Maximize2 className="w-3.5 h-3.5" /> Fullscreen Studio
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
-                {/* Workspace Display / Embed Container */}
-                <div className="flex-1 bg-black/60 rounded-xl border border-white/5 overflow-hidden relative flex flex-col items-center justify-center text-center p-8">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center shadow-xl shadow-indigo-500/30 mb-4">
-                    <Video className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">Google Flow AI Studio Connected</h3>
-                  <p className="text-xs text-slate-400 max-w-md mb-6 leading-relaxed">
-                    Aapka active Google project ready hai. Click niche karke direct studio launch karein ya background me render frames view karein.
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    <a
-                      href={directFlowUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center gap-2"
-                    >
-                      <ExternalLink className="w-4 h-4" /> Launch Flow Studio ({selectedProject.slice(0, 8)}...)
-                    </a>
-                    <button
-                      onClick={() => setActiveTab("gallery")}
-                      className="bg-white/10 hover:bg-white/15 border border-white/10 text-white font-semibold text-xs px-5 py-3 rounded-xl transition-all flex items-center gap-2"
-                    >
-                      <ImageIcon className="w-4 h-4" /> View 14 Generated Media
-                    </button>
-                  </div>
+                {/* Live Google Flow Studio Embedded Iframe */}
+                <div className="flex-1 bg-black rounded-xl border border-white/5 overflow-hidden relative">
+                  <iframe
+                    src={`https://srv1953617.hstgr.cloud/project/${selectedProject}`}
+                    title="Google Flow AI Studio Live"
+                    className="w-full h-full border-none block"
+                    allow="camera; microphone; clipboard-read; clipboard-write; fullscreen; encrypted-media; autoplay"
+                    loading="eager"
+                  />
                 </div>
               </div>
             </div>
